@@ -2,7 +2,6 @@
 
 A simple Ethereum smart contract and lightwallet example.
 
-For noobs! There might be bugs here.
 
 ### Updates
 
