@@ -1,7 +1,7 @@
 pragma solidity ^0.5.16;
 contract Conference {  // can be killed, so the owner gets sent the money in the end
 
-	address public organizer;
+	address payable public organizer;
 	mapping (address => uint) public registrantsPaid;
 	uint public numRegistrants;
 	uint public quota;
@@ -9,13 +9,13 @@ contract Conference {  // can be killed, so the owner gets sent the money in the
 	event Deposit(address _from, uint _amount); // so you can log the event
 	event Refund(address _to, uint _amount); // so you can log the event
 
-	function initConference() private {
+	constructor() public {
 		organizer = msg.sender;
 		quota = 100;
 		numRegistrants = 0;
 	}
 
-	function buyTicket() public {
+	function buyTicket() internal {
 		if (numRegistrants >= quota) {
 			revert(); // throw ensures funds will be returned
 		}
@@ -29,13 +29,13 @@ contract Conference {  // can be killed, so the owner gets sent the money in the
 		quota = newquota;
 	}
 
-	function refundTicket(address recipient, uint amount) public {
+	function refundTicket(address payable recipient, uint amount) public {
 		if (msg.sender != organizer) { return; }
 		if (registrantsPaid[recipient] == amount) {
-			address myAddress = this;
+			address myAddress = address(this);
 			if (myAddress.balance >= amount) {
-				recipient.send(amount);
-				Refund(recipient, amount);
+				recipient.transfer(amount);
+				emit Refund(recipient, amount);
 				registrantsPaid[recipient] = 0;
 				numRegistrants--;
 			}
@@ -45,7 +45,7 @@ contract Conference {  // can be killed, so the owner gets sent the money in the
 
 	function destroy() private {
 		if (msg.sender == organizer) { // without this funds could be locked in the contract forever!
-			suicide(organizer);
+			selfdestruct(organizer);
 		}
 	}
 }
