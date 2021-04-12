@@ -5,21 +5,21 @@ A simple Ethereum smart contract and lightwallet example.
 
 ### Updates
 
-Current code uses *Truffle v2.0.4*
+Current code uses *Truffle v0.5.16*
 
 
 ### Install
 
-Install [testrpc] (or use geth)
+Install [ganache-cli]
 
 ```
-$ npm install -g ethereumjs-testrpc
+$ npm install -g ganache-cli
 ```
 
 Install [truffle](https://github.com/consensys/truffle):
 
 ```
-$ npm install -g truffle 
+$ npm install -g truffle
 ```
 
 If you don't have solc you can get it [here](https://github.com/ethereum/go-ethereum/wiki/Contract-Tutorial#using-an-online-compiler)
@@ -29,7 +29,7 @@ If you don't have solc you can get it [here](https://github.com/ethereum/go-ethe
 Run testrpc in one console window:
 
 ```
-$ testrpc
+$ ganache-cli
 ```
 In another console window run truffle from project root directory:
 
@@ -39,5 +39,3 @@ $ truffle migrate
 $ truffle test
 $ truffle serve // server at localhost:8080
 ```
-
-
